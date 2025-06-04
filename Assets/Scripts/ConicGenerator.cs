@@ -6,22 +6,24 @@ public class ConicGenerator : MonoBehaviour
     [SerializeField] private GameObject point;
     [SerializeField] private List<GameObject> points;
     [SerializeField] private Transform parent;
-    [SerializeField] private float edgeLen = 5f;
     private Vector3 drawPos = Vector3.zero;
     [SerializeField] float radius = 5f;
     [SerializeField] int resolution = 20;
+    [SerializeField] float baseRadius = 5f;
+    [SerializeField] float height = 10f;
+    [SerializeField] Vector3 centre = Vector3.zero;
+    [SerializeField] float length = 5f;
+    [SerializeField] float breadth = 5f;
 
     private void Start()
     {
-        CreateCone(radius, 10);
+
     }
 
-    private void Update()
+
+    public void CreateCone()
     {
-       
-    }
-    void CreateCone(float baseRadius, float height)
-    {
+        Clear();
         float slantHeight = Mathf.Sqrt(baseRadius * baseRadius + height * height);
         for (int i = 0; i < slantHeight; i++)
         {
@@ -36,8 +38,9 @@ public class ConicGenerator : MonoBehaviour
             }
         }
     }
-    void CreateDisk(float radius)
+    public void CreateDisk()
     {
+        Clear();
         DrawPoint(Vector3.down * 2);
         for (int i = 1; i < radius; i++)
         {
@@ -49,8 +52,9 @@ public class ConicGenerator : MonoBehaviour
             }
         }
     }
-    void CreateCylinder(float radius,float height)
+    public void CreateCylinder()
     {
+        Clear();
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < resolution; j++)
@@ -61,8 +65,9 @@ public class ConicGenerator : MonoBehaviour
             }
         }
     }
-    void CreateSphere(float radius , Vector3 centre)
+    public void CreateSphere()
     {
+        Clear();
         for (int i = 0; i < resolution; i++)
         {
             float theta = i * Mathf.PI / resolution;
@@ -84,8 +89,9 @@ public class ConicGenerator : MonoBehaviour
         TrailRenderer trail = GetComponent<TrailRenderer>();
         points.Add(motif);
     }
-    void CreateCuboid(float length,float breadth,float height)
+    public void CreateCuboid()
     {
+        Clear();
         for (int i = 0; i <= height; i++)
         {
             for (int j = 0; j <= length; j++)
@@ -126,4 +132,19 @@ public class ConicGenerator : MonoBehaviour
             }
         }
     }
+    public void Clear()
+    {
+        // Destroy all the instantiated point GameObjects
+        foreach (GameObject obj in points)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+
+        // Clear the list after destruction
+        points.Clear();
+    }
+
 }
